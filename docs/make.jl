@@ -15,7 +15,7 @@ ENV["UNITFUL_FANCY_EXPONENTS"] = true
 include("docs_blocks.jl")
 
 format = DocumenterVitepress.MarkdownVitepress(;
-                                               repo = "github.com/brendanjohnharris/TimeseriesTools.jl",
+                                               repo = "github.com/brendanjohnharris/TimeseriesDocs.jl",
                                                devbranch = "main",
                                                devurl = "dev")
 
@@ -46,7 +46,7 @@ makedocs(;
          pages)
 
 DocumenterVitepress.deploydocs(;
-                               repo = "github.com/brendanjohnharris/TimeseriesTools.jl",
+                               repo = "github.com/brendanjohnharris/TimeseriesDocs.jl",
                                target = "build", # this is where Vitepress stores its output
                                branch = "gh-pages",
                                devbranch = "main",

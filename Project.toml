@@ -1,88 +1,10 @@
-name = "TimeseriesTools"
+name = "TimeseriesDocs"
 uuid = "0c65d279-f34c-4c6b-aa10-84bead3be211"
 authors = ["brendanjohnharris <brendanjohnharris@gmail.com> and contributors"]
-version = "0.7.1"
+version = "0.0.1"
 
-[deps]
-Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
-DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
-DimensionalData = "0703355e-b756-11e9-17c0-8b28908087d0"
-Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
-FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
-FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
-IntervalSets = "8197267c-284f-5f27-9208-e0e47529a953"
-JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
-LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
-LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
-Normalization = "be38d6a3-8366-4a42-ad57-222272b5bbe7"
-Peaks = "18e31ff7-3703-566c-8e60-38913d67486b"
-ProgressLogging = "33c8b6b6-d38a-422a-b730-caa89a2f386c"
-Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
-Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
-SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
-Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
-TimeseriesMakie = "5e3e9a77-7bbf-480c-931c-0802e2453f5a"
-TimeseriesSurrogates = "c804724b-8c18-5caa-8579-6025a0767c70"
-Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
-
-[weakdeps]
-Autocorrelations = "b9118d5e-f165-4cbd-b2ae-b030566b7b26"
-CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
-ComplexityMeasures = "ab4b797d-85ee-42ba-b621-05d793b346a2"
-ContinuousWavelets = "96eb917e-2868-4417-9cb6-27e7ff17528f"
-DSP = "717857b8-e6f2-59f4-9121-6e50c889abd2"
-DataInterpolations = "82cc6244-b520-54b8-b5a6-8a565e85f1d0"
-GeneralizedPhase = "13235c25-d339-4138-a8bf-65c4e89d8d0a"
-Mmap = "a63ad114-7e13-5084-954f-fe012c677804"
-NaturalNeighbours = "f16ad982-4edb-46b1-8125-78e5a8b5a9e6"
-Term = "22787eb5-b846-44ae-b979-8e399b8463ab"
-
-[extensions]
-AutocorrelationsExt = ["Autocorrelations"]
-CUDAExt = ["CUDA", "ContinuousWavelets"]
-ComplexityMeasuresExt = ["ComplexityMeasures"]
-ContinuousWaveletsExt = ["ContinuousWavelets", "Mmap"]
-DSPExt = ["DSP"]
-DataInterpolationsExt = ["DataInterpolations"]
-GeneralizedPhaseExt = ["GeneralizedPhase"]
-NaturalNeighboursExt = ["NaturalNeighbours"]
-TermExt = ["Term"]
 
 [compat]
-Autocorrelations = "0.1"
-CUDA = "3, 4, 5"
-ComplexityMeasures = "3"
-ContinuousWavelets = "1"
-DSP = "0.6, 0.7, 0.8"
-DataInterpolations = "7, 8"
-DelimitedFiles = "1.9"
-DimensionalData = "0.27 - 0.29"
-Distributions = "0.25"
-FFTW = "1"
-FileIO = "1"
-GeneralizedPhase = "0.1"
-IntervalSets = "0.7"
-JSON = "0.20, 0.21"
-LaTeXStrings = "1"
-NaturalNeighbours = "1"
-Normalization = "0.7"
-Peaks = "0.4, 0.5"
-ProgressLogging = "0.1"
-Reexport = "1"
-Term = "2"
-TimeseriesMakie = "0.1.1, 0.2"
-TimeseriesSurrogates = "2.6.3, 2.7"
-Unitful = "1"
 julia = "1.10"
 
-[extras]
-Autocorrelations = "b9118d5e-f165-4cbd-b2ae-b030566b7b26"
-CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
-ComplexityMeasures = "ab4b797d-85ee-42ba-b621-05d793b346a2"
-ContinuousWavelets = "96eb917e-2868-4417-9cb6-27e7ff17528f"
-DSP = "717857b8-e6f2-59f4-9121-6e50c889abd2"
-DataInterpolations = "82cc6244-b520-54b8-b5a6-8a565e85f1d0"
-GeneralizedPhase = "13235c25-d339-4138-a8bf-65c4e89d8d0a"
-Mmap = "a63ad114-7e13-5084-954f-fe012c677804"
-NaturalNeighbours = "f16ad982-4edb-46b1-8125-78e5a8b5a9e6"
-Term = "22787eb5-b846-44ae-b979-8e399b8463ab"
+

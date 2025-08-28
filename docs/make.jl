@@ -30,10 +30,13 @@ timeseriesmakie = ["Introduction" => "TimeseriesMakie/index.md",
     "Recipes" => "TimeseriesMakie/recipes.md",
     "Reference" => "TimeseriesMakie/reference.md"]
 
+normalization = ["Introduction" => "Normalization/index.md"]
+
 pages = ["Home" => "index.md",
     "Quick start" => "quickstart.md",
     "TimeseriesTools" => timeseriestools,
-    "TimeseriesMakie" => timeseriesmakie
+    "TimeseriesMakie" => timeseriesmakie,
+    "Normalization" => normalization
 ]
 
 makedocs(;

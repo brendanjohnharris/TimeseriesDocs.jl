@@ -148,11 +148,25 @@ normviz(x, y)
 
 Scale to have unit energy
 
-$$\frac{x}{\sum x^2}$$
+$$\frac{x}{\sqrt{\sum x^2 \cdot \Delta t}}$$
 
 ```@example Normalization
 x = 1.25.*randn(100) .+ 0.5
 N = fit(UnitEnergy, x)
+y = normalize(x, N)
+normviz(x, y)
+```
+
+
+== UnitPower
+
+Scale to have unit average power
+
+$$\frac{x}{\sqrt{\langle x^2 \rangle}}$$
+
+```@example Normalization
+x = 1.25.*randn(100) .+ 0.5
+N = fit(UnitPower, x)
 y = normalize(x, N)
 normviz(x, y)
 ```

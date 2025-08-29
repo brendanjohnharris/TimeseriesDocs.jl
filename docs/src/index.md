@@ -30,6 +30,10 @@ features:
     title: TimeseriesMakie
     details: Makie recipes for visualizing time-series
     link: /TimeseriesMakie/index
+  - icon: <img width="64" height="64" src="https://rawcdn.githack.com/JuliaLang/julia-logo-graphics/f3a09eb033b653970c5b8412e7755e3c7d78db9e/images/juliadots.iconset/icon_512x512.png" />
+    title: Normalization
+    details: Normalization methods for array data
+    link: /Normalization/index
 ---
 
 

@@ -20,9 +20,9 @@ const navTemp = {
 
 const nav = [
     ...navTemp.nav,
-    {
-        component: 'VersionPicker'
-    }
+    // {
+    //     component: 'VersionPicker'
+    // }
 ]
 
 // https://vitepress.dev/reference/site-config

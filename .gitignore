@@ -20,6 +20,7 @@ data
 docs/build/
 docs/site/
 !test/test_timeseries.tsv
+!docs/Manifest.toml
 
 # Node.js and npm
 node_modules/

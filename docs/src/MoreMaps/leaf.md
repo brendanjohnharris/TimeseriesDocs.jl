@@ -5,6 +5,7 @@ CurrentModule = MoreMaps
 ```@setup MoreMaps
 using MoreMaps
 using Dagger  # Need to load Dagger to trigger the extension
+using Test
 ```
 
 # Nested Array Handling

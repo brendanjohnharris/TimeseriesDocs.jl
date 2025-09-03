@@ -1,4 +1,9 @@
-# TimeseriesTools.jl
+```@meta
+CurrentModule = TimeseriesTools
+```
+
+
+# [TimeseriesTools.jl](https://www.github.com/brendanjohnharris/TimeseriesTools.jl)
 
 [TimeseriesTools.jl](https://github.com/brendanjohnharris/TimeseriesTools.jl) is the top-level package for the `Timeseries` family.
 It re-exports all functionality of [TimeseriesMakie.jl](https://github.com/brendanjohnharris/TimeseriesMakie.jl) and [TimeseriesBase.jl](https://github.com/brendanjohnharris/TimeseriesBase.jl).

@@ -2,7 +2,7 @@
 CurrentModule = TimeseriesMakie
 ```
 
-# TimeseriesMakie
+# [TimeseriesMakie](https://www.github.com/brendanjohnharris/TimeseriesMakie.jl)
 
 [TimeseriesMakie.jl](https://github.com/brendanjohnharris/TimeseriesMakie.jl) provides plotting recipes and visualization tools for time series data, using [Makie.jl](https://github.com/MakieOrg/Makie.jl).
 

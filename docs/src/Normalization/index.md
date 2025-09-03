@@ -1,3 +1,5 @@
+
+
 ```@setup Normalization
 using Normalization
 using CairoMakie
@@ -28,7 +30,7 @@ function normviz(x, y)
 end
 ```
 
-# Normalization.jl
+# [Normalization.jl](https://www.github.com/brendanjohnharris/Normalization.jl)
 
 This package allows you to easily normalize an array over any combination of dimensions, with a bunch of methods (z-score, sigmoid, centering, minmax, etc.) and modifiers (robust, mixed, NaN-safe).
 

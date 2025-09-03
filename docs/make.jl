@@ -3,6 +3,13 @@ using Makie
 import Makie.Linestyle
 using TimeseriesTools
 using TimeseriesMakie
+using Normalization
+
+using ProgressLogging
+using Term
+using Dagger
+using MoreMaps
+
 using Documenter
 using Documenter: Documenter
 using Documenter.MarkdownAST
@@ -30,14 +37,31 @@ timeseriesmakie = ["Introduction" => "TimeseriesMakie/index.md",
     "Recipes" => "TimeseriesMakie/recipes.md",
     "Reference" => "TimeseriesMakie/reference.md"]
 
-normalization = ["Introduction" => "Normalization/index.md"]
+normalization = ["Introduction" => "Normalization/index.md",
+    "Reference" => "Normalization/reference.md"]
+
+cartographer = ["Introduction" => "MoreMaps/index.md",
+    "Backends" => "MoreMaps/backends.md",
+    "Progress" => "MoreMaps/progress.md",
+    "Leaves" => "MoreMaps/leaf.md",
+    "Expansion" => "MoreMaps/expansion.md",
+    "Reference" => "MoreMaps/reference.md"]
 
 pages = ["Home" => "index.md",
     "Quick start" => "quickstart.md",
     "TimeseriesTools" => timeseriestools,
     "TimeseriesMakie" => timeseriesmakie,
-    "Normalization" => normalization
+    "Normalization" => normalization,
+    "MoreMaps" => cartographer
 ]
+
+modules = [TimeseriesTools,
+    TimeseriesMakie,
+    Normalization,
+    MoreMaps,
+    Base.get_extension(MoreMaps, :DaggerExt),
+    Base.get_extension(MoreMaps, :TermExt),
+    Base.get_extension(MoreMaps, :ProgressLoggingExt)]
 
 makedocs(;
          authors = "brendanjohnharris <brendanjohnharris@gmail.com> and contributors",
@@ -45,7 +69,7 @@ makedocs(;
          format,
          doctest = false,
          warnonly = [:cross_references],
-         modules = [TimeseriesTools, TimeseriesMakie],
+         modules,
          pages)
 
 DocumenterVitepress.deploydocs(;

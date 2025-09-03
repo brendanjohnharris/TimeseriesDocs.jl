@@ -1,0 +1,1 @@
+import{_ as e,c as a,o as t}from"./chunks/framework.Cv0qBUI3.js";const l=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"MoreMaps/expansion.md","filePath":"MoreMaps/expansion.md","lastUpdated":null}'),n={name:"MoreMaps/expansion.md"};function o(s,r,p,c,i,d){return t(),a("div")}const m=e(n,[["render",o]]);export{l as __pageData,m as default};

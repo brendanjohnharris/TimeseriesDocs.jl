@@ -1,1 +1,0 @@
-import{_ as e,c as a,o as t}from"./chunks/framework.Cv0qBUI3.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"MoreMaps/leaf.md","filePath":"MoreMaps/leaf.md","lastUpdated":null}'),r={name:"MoreMaps/leaf.md"};function o(s,n,c,p,l,d){return t(),a("div")}const i=e(r,[["render",o]]);export{_ as __pageData,i as default};

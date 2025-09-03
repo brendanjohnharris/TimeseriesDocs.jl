@@ -25,6 +25,11 @@ jobs:
             Pkg.Registry.update();
             Pkg.develop(PackageSpec(path=pwd()));
             Pkg.resolve();
+            Pkg.develop("TimeseriesTools");
+            Pkg.develop("TimeseriesBase");
+            Pkg.develop("TimeseriesMakie");
+            Pkg.develop("Normalization");
+            Pkg.develop("MoreMaps");
             Pkg.instantiate()'
       - name: Build and deploy
         env:

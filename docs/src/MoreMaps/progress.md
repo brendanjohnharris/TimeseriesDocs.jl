@@ -1,3 +1,13 @@
+
+```@meta
+CurrentModule = MoreMaps
+```
+
+```@setup MoreMaps
+using MoreMaps
+using Dagger  # Need to load Dagger to trigger the extension
+```
+
 # Progress
 
 

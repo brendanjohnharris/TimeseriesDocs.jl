@@ -4,8 +4,8 @@ CurrentModule = MoreMaps
 ```
 
 ```@setup MoreMaps
-using MoreMaps
 using Dagger  # Need to load Dagger to trigger the extension
+using MoreMaps
 ```
 
 # Execution Backends
@@ -38,9 +38,6 @@ MoreMaps.Pmap
 == Daggermap
 
 
-```@docs; canonical=false
-MoreMaps.Daggermap
-```
 
 
 :::

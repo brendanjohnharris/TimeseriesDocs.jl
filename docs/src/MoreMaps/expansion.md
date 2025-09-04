@@ -1,3 +1,13 @@
+
+```@meta
+CurrentModule = MoreMaps
+```
+
+```@setup MoreMaps
+using MoreMaps
+using Dagger  # Need to load Dagger to trigger the extension
+```
+
 # Expansions
 
 `MoreMaps.jl` supports automatic expansion of iterators, allowing for efficient combinatorial mapping.

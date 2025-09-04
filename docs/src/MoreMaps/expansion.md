@@ -41,7 +41,6 @@ end
 x = 1:5
 y = 6:10
 
-# Note: This would need proper implementation in the package
 C = Chart(zip_expansion)
 z = map(tuple, C, x, y)
 ```
@@ -61,21 +60,6 @@ result_outer = map((a, b) -> length(a) + length(b), C_outer, x, y)
 # Expand at leaf level
 C_leaf = Chart(leaf = Vector{Int}, expansion = Iterators.product)
 result_leaf = map((a, b) -> a .+ b, C_leaf, x, y)
-```
-
-## Performance Considerations
-
-```@example MoreMaps
-# Small expansions are efficient
-x = 1:10
-y = 1:10
-C = Chart(Threaded(), NoProgress(), MoreMaps.All, Iterators.product)
-@time z = map(+, C, x, y)
-
-# Be careful with large expansions
-# x = 1:1000
-# y = 1:1000
-# This creates a 1,000,000 element result!
 ```
 
 ## Practical Applications
@@ -107,14 +91,15 @@ C = Chart(Threaded(), NoProgress(), MoreMaps.All, Iterators.product)
 grid = map((x, y) -> x^2 + y^2, C, x_range, y_range)
 ```
 
-## NoExpansion (Default)
 
-The default behavior performs element-wise mapping without expansion:
+### Dimension sweeps
+
+`Iterators.product` expansions work well with `DimensionalData.jl` dimensions:
 
 ```@example MoreMaps
-x = 1:3
-y = 4:6
-
-C = Chart()  # Default: NoExpansion()
-z = map(+, C, x, y)  # Element-wise addition
+using DimensionalData
+x = X(1:3)
+y = Y(4:6)
+C = Chart(Iterators.product)
+z = map(+, C, x, y)
 ```

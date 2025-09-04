@@ -17,7 +17,7 @@ y = map(x -> x^2, C, x)
 
 ### InfoProgress
 
-.............
+Uses Julia's built-in logging system to display progress information at regular intervals:
 
 ```@example MoreMaps
 using MoreMaps

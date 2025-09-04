@@ -28,7 +28,7 @@ C_threaded = Chart(Threaded())
 y_threaded = map(sqrt, C_threaded, x)
 
 # Add progress tracking
-C_progress = Chart(Threaded(), InfoProgress(10))
+C_progress = Chart(Threaded(), LogLogger(10))
 y_progress = map(sqrt, C_progress, x)
 ```
 

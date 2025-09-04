@@ -87,7 +87,7 @@ C = Chart(Threaded(), NoProgress(), All, Iterators.product)
 alphas = [0.1, 0.5, 1.0]
 betas = [1, 2, 3]
 
-C = Chart(Threaded(), InfoProgress(5), All, Iterators.product)
+C = Chart(Threaded(), LogLogger(5), All, Iterators.product)
 
 results = map(C, alphas, betas) do α, β
     # Simulate some computation

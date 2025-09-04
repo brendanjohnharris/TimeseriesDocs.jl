@@ -22,7 +22,7 @@ Treats all arrays as leaves - applies the function to the outermost array:
 
 ```@example MoreMaps
 x = [1:3, 4:6, 7:9]
-C = Chart(leaf = All)
+C = Chart(leaf = MoreMaps.All)
 y = map(sum, C, x)
 ```
 
@@ -81,7 +81,7 @@ data = [
 ]
 
 # Process at different levels
-C_outer = Chart(leaf = All)
+C_outer = Chart(leaf = MoreMaps.All)
 result_outer = map(x -> length(x), C_outer, data)
 
 C_ranges = Chart(leaf = StepRangeLen)
@@ -106,6 +106,6 @@ z = map(+, C, x, y)
 ## Performance Tips
 
 1. Use concrete leaf types when possible for better type stability
-2. `All` (default) is fastest for non-nested arrays
+2. `MoreMaps.All` (default) is fastest for non-nested arrays
 3. `Union{}` provides maximum flexibility but may sacrifice type stability
 4. Specify the most specific leaf type that matches your use case

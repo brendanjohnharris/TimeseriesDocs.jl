@@ -55,7 +55,7 @@ x = [[1, 2], [3, 4]]
 y = [[5, 6], [7, 8]]
 
 # Expand outer arrays
-C_outer = Chart(leaf = All, expansion = Iterators.product)
+C_outer = Chart(leaf = MoreMaps.All, expansion = Iterators.product)
 result_outer = map((a, b) -> length(a) + length(b), C_outer, x, y)
 
 # Expand at leaf level
@@ -69,7 +69,7 @@ result_leaf = map((a, b) -> a .+ b, C_leaf, x, y)
 # Small expansions are efficient
 x = 1:10
 y = 1:10
-C = Chart(Threaded(), NoProgress(), All, Iterators.product)
+C = Chart(Threaded(), NoProgress(), MoreMaps.All, Iterators.product)
 @time z = map(+, C, x, y)
 
 # Be careful with large expansions
@@ -87,7 +87,7 @@ C = Chart(Threaded(), NoProgress(), All, Iterators.product)
 alphas = [0.1, 0.5, 1.0]
 betas = [1, 2, 3]
 
-C = Chart(Threaded(), LogLogger(5), All, Iterators.product)
+C = Chart(Threaded(), LogLogger(5), MoreMaps.All, Iterators.product)
 
 results = map(C, alphas, betas) do α, β
     # Simulate some computation
@@ -102,7 +102,7 @@ end
 x_range = range(-1, 1, length=20)
 y_range = range(-1, 1, length=20)
 
-C = Chart(Threaded(), NoProgress(), All, Iterators.product)
+C = Chart(Threaded(), NoProgress(), MoreMaps.All, Iterators.product)
 
 grid = map((x, y) -> x^2 + y^2, C, x_range, y_range)
 ```

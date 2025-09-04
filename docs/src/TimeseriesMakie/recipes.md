@@ -19,7 +19,12 @@ Makie.set_theme!(Foresight.foresight())
 
 # Recipes
 
-## [trajectory](@ref)
+
+
+:::tabs
+
+== Trajectory
+
 
 ```@shortdocs; canonical=false
 trajectory
@@ -52,7 +57,7 @@ trajectory!(ax, x, y, x .* y; color = :speed)
 f
 ```
 
-## [shadows](@ref)
+== Shadows
 
 ```@shortdocs; canonical=false
 shadows
@@ -75,7 +80,7 @@ shadows!(ax, x, y, z; limits, linewidth = 0.5)
 f
 ```
 
-## [traces](@ref)
+== Traces
 
 ```@shortdocs; canonical=false
 traces
@@ -105,7 +110,7 @@ f
 ```
 
 
-## [kinetic](@ref)
+== Kinetic
 
 ```@shortdocs; canonical=false
 kinetic

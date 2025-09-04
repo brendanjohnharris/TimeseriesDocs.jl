@@ -70,7 +70,7 @@ y == map(sqrt, x)
 ```
 
 See the following pages for details on configuring a `Chart`:
-- [Backends](MoreMaps/backends) - Execution strategies (Sequential, Threaded, Distributed, Dagger)
-- [Progress](MoreMaps/progress) - Progress tracking options
-- [Leaves](MoreMaps/leaf) - Nested array handling
-- [Expansions](MoreMaps/expansion) - Cartesian product iterations
+- [Backends](backends) - Execution strategies (Sequential, Threaded, Distributed, Dagger)
+- [Progress](progress) - Progress tracking options
+- [Leaves](leaf) - Nested array handling
+- [Expansions](expansion) - Cartesian product iterations

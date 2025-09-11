@@ -113,7 +113,7 @@ trail
 ```
 
 ```@example TimeseriesMakie
-  f = Figure(size = (400, 400))
+  f = Figure(size = (600, 600))
 
     ϕ = 0:0.1:(8π) |> reverse
     x = ϕ .* exp.(ϕ .* im)

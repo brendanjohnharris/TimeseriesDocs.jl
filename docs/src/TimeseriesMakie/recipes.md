@@ -113,32 +113,32 @@ trail
 ```
 
 ```@example TimeseriesMakie
-  f = Figure(size = (600, 600))
+f = Figure(size = (600, 600))
 
-    ϕ = 0:0.1:(8π) |> reverse
-    x = ϕ .* exp.(ϕ .* im)
-    y = imag.(x)
-    x = real.(x)
+ϕ = 0:0.1:(8π) |> reverse
+x = ϕ .* exp.(ϕ .* im)
+y = imag.(x)
+x = real.(x)
 
-    # * Default
-    ax = Axis(f[1, 1], title = "Default")
-    trail!(ax, x, y)
+# * Default
+ax = Axis(f[1, 1], title = "Default")
+trail!(ax, x, y)
 
-    # * Colormap
-    ax = Axis(f[1, 2], title = "Colormap")
-    trail!(ax, x, y; color = 1:500)
+# * Colormap
+ax = Axis(f[1, 2], title = "Colormap")
+trail!(ax, x, y; color = 1:500)
 
-    # * Alpha
-    ax = Axis(f[2, 1], title = "Alpha^3")
-    trail!(ax, x, y; alpha = Base.Fix2(^, 3))
+# * Alpha
+ax = Axis(f[2, 1], title = "Alpha^3")
+trail!(ax, x, y; alpha = Base.Fix2(^, 3))
 
-    # * Shorter trail
-    ax = Axis(f[2, 2], title = "Shorter trail")
-    trail!(ax, x, y; n_points = 100)
+# * Shorter trail
+ax = Axis(f[2, 2], title = "Shorter trail")
+trail!(ax, x, y; n_points = 100)
 
-    linkaxes!(contents(f.layout))
-    hidedecorations!.(contents(f.layout))
-    f
+linkaxes!(contents(f.layout))
+hidedecorations!.(contents(f.layout))
+f
 ```
 
 You can animate a trail with:

@@ -8,10 +8,12 @@ A flexible mapping framework for Julia that provides different parallel backends
 
 ## Features
 
-- **Multiple backends**: Sequential, Threads, Distributed, and Dagger execution
-- **Progress tracking**: Support for various progress-logging backends
+- **Multiple backends**: Sequential, Threaded, Distributed (`Pmap`), and `Daggermap` execution
+- **Progress tracking**: `LogLogger`, `ProgressLogger`, `TermLogger`, and `QualityLogger`
 - **Nested array support**: Map over specific leaf types in nested array structures
-- **Cartesian expansions**: Easy cartesian product iterations
+- **Cartesian (and arbitrary) expansions**: Easy combinatorial iteration over inputs
+- **Tuple / NamedTuple inputs**: Map over `Tuple`s and `NamedTuple`s, returning the same shape
+- **`DimensionalData` support**: Map directly over `Dimension` arguments
 
 ## Quick Start
 
@@ -32,25 +34,38 @@ C_progress = Chart(Threaded(), LogLogger(10))
 y_progress = map(sqrt, C_progress, x)
 ```
 
+You can also pass a `Backend` or `Progress` value (or even the bare type) directly to `map`, and a default `Chart` wrapping it will be constructed for you:
+
+```@example MoreMaps
+using MoreMaps
+x = rand(10)
+map(sqrt, Threaded(), x)        # equivalent to map(sqrt, Chart(Threaded()), x)
+map(sqrt, LogLogger(5), x)      # equivalent to map(sqrt, Chart(LogLogger(5)), x)
+```
+
 ## Basics
 
 The basis of a `MoreMaps` map is the `Chart` type, which configures how mapping operations are executed.
 
-A `Chart` has the following fields:
+A `Chart` is parameterised by four things:
+
 - `backend`: Specifies the execution backend
 - `progress`: Configures the progress logging behavior
-- `leaf`: Defines the element type where recursion terminates, for mapping nested arrays
-- `expansion`: Determines the expansion strategy (e.g. Cartesian product)
+- `leaf`: The element type where recursion terminates, used for mapping nested arrays. Stored as a type parameter rather than a field.
+- `expansion`: Determines how the input iterables are combined (e.g. Cartesian product). Either `NoExpansion()` or a `Function`.
 
 A chart can be constructed using keywords or arbitrary-order positional arguments. The default `Chart()` reproduces `Base.map()`, and is constructed as:
-```julia
-C = Chart(backend=Sequential(),    # No parallel execution; similar to Base.map
-          progress=NoProgress(),   # No progress logging
-          leaf=MoreMaps.All,                # Map over each element of the root array, like Base.map
-          expansion=NoExpansion()) # Map over the original input arrays, as for Base.map
 
-# Or
-C = Chart(Sequential(), NoProgress(), MoreMaps.All, NoExpansion()) # In any order
+```julia
+C = Chart(backend   = Sequential(),    # No parallel execution; similar to Base.map
+          progress  = NoProgress(),    # No progress logging
+          leaf      = MoreMaps.All,    # Map over each element of the root array, like Base.map
+          expansion = NoExpansion())   # Map over the original input arrays, as for Base.map
+
+# Or, using positional arguments in any order. Each argument is dispatched on its
+# type: `Backend` -> backend, `Progress` -> progress, `Type` -> leaf, `Function`
+# -> expansion.
+C = Chart(Sequential(), NoProgress(), MoreMaps.All, NoExpansion())
 
 # Default behavior
 C == Chart()
@@ -69,8 +84,16 @@ y = map(sqrt, C, x)
 y == map(sqrt, x)
 ```
 
+`Tuple` and `NamedTuple` inputs are supported and the result is returned with the same shape:
+
+```@example MoreMaps
+map(x -> x^2, Chart(), (1, 2, 3))             # -> Tuple
+map(x -> x^2, Chart(), (a = 1, b = 2, c = 3)) # -> NamedTuple
+```
+
 See the following pages for details on configuring a `Chart`:
-- [Backends](backends) - Execution strategies (Sequential, Threaded, Distributed, Dagger)
-- [Progress](progress) - Progress tracking options
+
+- [Backends](backends) - Execution strategies (`Sequential`, `Threaded`, `Pmap`, `Daggermap`)
+- [Progress](progress) - Progress tracking options (`LogLogger`, `ProgressLogger`, `TermLogger`, `QualityLogger`, `NoProgress`)
 - [Leaves](leaf) - Nested array handling
-- [Expansions](expansion) - Cartesian product iterations
+- [Expansions](expansion) - Cartesian product and custom iterations

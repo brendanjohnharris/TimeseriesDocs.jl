@@ -14,7 +14,7 @@ using Dagger  # Need to load Dagger to trigger the extension
 
 ## Basic Expansion
 
-The typical expansion of two inputs `x` and `y` is the Cartesian product Use `Iterators.product(x, y)`:
+The typical expansion of two inputs `x` and `y` is their Cartesian product, obtained by passing `Iterators.product` as the expansion function:
 
 ```@example MoreMaps
 x = 1:3

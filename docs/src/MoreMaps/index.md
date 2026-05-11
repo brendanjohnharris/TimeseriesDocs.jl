@@ -93,7 +93,7 @@ map(x -> x^2, Chart(), (a = 1, b = 2, c = 3)) # -> NamedTuple
 
 See the following pages for details on configuring a `Chart`:
 
-- [Backends](backends) - Execution strategies (`Sequential`, `Threaded`, `Pmap`, `Daggermap`)
-- [Progress](progress) - Progress tracking options (`LogLogger`, `ProgressLogger`, `TermLogger`, `QualityLogger`, `NoProgress`)
-- [Leaves](leaf) - Nested array handling
-- [Expansions](expansion) - Cartesian product and custom iterations
+- [Backends](backends.md) - Execution strategies (`Sequential`, `Threaded`, `Pmap`, `Daggermap`)
+- [Progress](progress.md) - Progress tracking options (`LogLogger`, `ProgressLogger`, `TermLogger`, `QualityLogger`, `NoProgress`)
+- [Leaves](leaf.md) - Nested array handling
+- [Expansions](expansion.md) - Cartesian product and custom iterations

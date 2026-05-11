@@ -3,6 +3,8 @@ import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs'
 import { mathjaxPlugin } from './mathjax-plugin'
 import footnote from "markdown-it-footnote";
 import path from 'path'
+import githubLightIanthina from './themes/github-light-ianthina.json' with { type: 'json' }
+import githubDarkIanthina from './themes/github-dark-ianthina.json' with { type: 'json' }
 
 const mathjax = mathjaxPlugin()
 
@@ -77,8 +79,8 @@ export default defineConfig({
             mathjax.markdownConfig(md)
         },
         theme: {
-            light: "github-light",
-            dark: "github-dark"
+            light: githubLightIanthina,
+            dark: githubDarkIanthina
         }
     },
     themeConfig: {

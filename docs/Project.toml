@@ -17,6 +17,7 @@ TimeseriesBase = "c2aba7f5-82a4-4c45-a741-402bb41ee238"
 TimeseriesMakie = "5e3e9a77-7bbf-480c-931c-0802e2453f5a"
 TimeseriesTools = "380cddd1-6ef2-46ca-b087-e7151fb095ff"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
+YAML = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
 
 [sources]
 MoreMaps = {rev = "main", url = "https://github.com/brendanjohnharris/MoreMaps.jl"}

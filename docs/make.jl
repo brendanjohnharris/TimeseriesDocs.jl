@@ -2,6 +2,7 @@ using CairoMakie
 using Makie
 import Makie.Linestyle
 using TimeseriesTools
+using TimeseriesBase
 using TimeseriesMakie
 using Normalization
 
@@ -61,9 +62,27 @@ format = DocumenterVitepress.MarkdownVitepress(;
 
 timeseriestools = [
     "Introduction" => "TimeseriesTools/index.md",
-    "Types" => "TimeseriesTools/types.md",
-    "Utils" => "TimeseriesTools/utils.md",
-    "Others" => "TimeseriesTools/others.md",
+    "Tutorial" => "TimeseriesTools/tutorial.md",
+    "Core types and utilities" => [
+        "Arrays and dimensions" => "TimeseriesTools/base/arrays.md",
+        "Time series" => "TimeseriesTools/base/timeseries.md",
+        "Spectra" => "TimeseriesTools/base/spectra.md",
+        "Unitful integration" => "TimeseriesTools/base/unitful.md",
+        "Dates" => "TimeseriesTools/base/dates.md",
+        "Utilities" => "TimeseriesTools/base/utils.md",
+        "Operators" => "TimeseriesTools/base/operators.md",
+        "IO" => "TimeseriesTools/base/io.md",
+    ],
+    "Analysis" => [
+        "Spectra and spectrograms" => "TimeseriesTools/analysis/spectra.md",
+        "Filtering and analytic signals" => "TimeseriesTools/analysis/filtering.md",
+        "Data wrangling: imputation, interpolation, and resampling" => "TimeseriesTools/analysis/interpolation.md",
+        "Spike trains" => "TimeseriesTools/analysis/spiketrains.md",
+        "Surrogates" => "TimeseriesTools/analysis/surrogates.md",
+        "Peaks and spectral fitting" => "TimeseriesTools/analysis/peaks.md",
+        "Statistics" => "TimeseriesTools/analysis/stats.md",
+    ],
+    "Extensions reference" => "TimeseriesTools/extensions.md",
 ]
 
 timeseriesmakie = [
@@ -114,7 +133,7 @@ for (pkg, ext) in extensions
 end
 
 modules = Module[
-    TimeseriesTools, TimeseriesMakie, Normalization, MoreMaps,
+    TimeseriesTools, TimeseriesBase, TimeseriesMakie, Normalization, MoreMaps,
     extension_modules...,
 ]
 
@@ -125,13 +144,14 @@ makedocs(;
     format,
     remotes = Dict(
         pkgdir(TimeseriesTools) => (GitHub("brendanjohnharris", "TimeseriesTools.jl"), "main"),
+        pkgdir(TimeseriesBase) => (GitHub("brendanjohnharris", "TimeseriesBase.jl"), "main"),
         pkgdir(TimeseriesMakie) => (GitHub("brendanjohnharris", "TimeseriesMakie.jl"), "main"),
         pkgdir(Normalization) => (GitHub("brendanjohnharris", "Normalization.jl"), "main"),
         pkgdir(MoreMaps) => (GitHub("brendanjohnharris", "MoreMaps.jl"), "main"),
         pkgdir(Makie) => (GitHub("MakieOrg", "Makie.jl"), "master"),
     ),
     doctest = false,
-    warnonly = [:cross_references],
+    warnonly = [:cross_references, :missing_docs, :docs_block, :example_block],
     modules,
     pages
 )

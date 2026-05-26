@@ -24,4 +24,5 @@ MoreMaps = {rev = "main", url = "https://github.com/brendanjohnharris/MoreMaps.j
 Normalization = {rev = "main", url = "https://github.com/brendanjohnharris/Normalization.jl"}
 TimeseriesMakie = {rev = "main", url = "https://github.com/brendanjohnharris/TimeseriesMakie.jl"}
 TimeseriesTools = {rev = "main", url = "https://github.com/brendanjohnharris/TimeseriesTools.jl"}
+TimeseriesBase = {rev = "main", url = "https://github.com/brendanjohnharris/TimeseriesBase.jl"}
 

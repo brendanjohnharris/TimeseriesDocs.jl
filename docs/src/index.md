@@ -39,12 +39,12 @@ features:
     details: Flexible parallel map configurations for abstract and nested arrays.
     link: /MoreMaps/index
 ---
+```
 
-
+```@raw html
 <p style="margin-bottom:2cm"></p>
 
 <div class="vp-doc" style="width:80%; margin:auto">
-
 ```
 
 ## Highlights

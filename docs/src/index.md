@@ -52,9 +52,10 @@ features:
 - **Consistent data**: built on `DimensionalData.jl`, giving one type that carries values, time points, spatial coordinates, units, and metadata.
 - **Leverage dispatch**: distinct types for e.g. regular, irregular, and multivariate series, facilitating generic methods.
 - **Unitful**: `Unitful.jl` integration keeps frequency, power, and amplitude dimensionally consistent.
-- **Analysis**: spectra and spectrograms, filtering and analytic signals, interpolation/resampling/imputation, spike trains, surrogates.
+- **Calendar-aware**: `Dates` time axes work across windowing, grid repair, and IO.
+- **Analysis**: spectra and spectrograms, filtering and analytic signals, interpolation/resampling/imputation, spike trains, parametric spectral fits, and (in a companion package) surrogate data.
 - **Plotting**: `Makie.jl` recipes for series, spectra, spike rasters, and trajectories.
-- **Light by default**: extensions implement heavy analysis.
+- **Light by default**: extensions implement heavy analysis, and a hint names the package to load when a method is missing.
 
 
 ```@raw html

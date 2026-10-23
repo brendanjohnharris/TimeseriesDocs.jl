@@ -5,13 +5,27 @@ using TimeseriesTools
 using TimeseriesBase
 using TimeseriesMakie
 using Normalization
+using TimeseriesToolsSurrogates
+
+# Packages that enable extensions. Loading them here does two things: the `@example`
+# blocks can use them, and the extension modules exist so their docstrings can be included
+# in the reference pages (`Base.get_extension` below).
+using DSP                 # TimeseriesTools' DSPExt: filters, analytic signal, phasestitch, downsample
+using DataInterpolations  # DataInterpolationsExt: interpolate, resample, upsample, impute
+using Distributions       # DistributionsExt: pointprocess!, gammarenewal
+using ContinuousWavelets  # ContinuousWaveletsExt: waveletspectrogram
+using JLD2                # TimeseriesBase's JLD2Ext: loadtoolsarray, and the default IO backend
+using Optim               # OptimExt: MAPPLE refinement and uncertainties
+using ForwardDiff
 
 using ProgressLogging
 using Term
 using Dagger
+using OhMyThreads
+using Polyester
 using MoreMaps
-using Optim    # triggers TimeseriesTools' OptimExt for docs
-using ForwardDiff
+
+using Dates, Random, Statistics
 
 using Documenter
 using Documenter: Documenter
@@ -52,7 +66,33 @@ function generate_palette_css(;
     @info "Wrote palette CSS" out colors = length(palette)
 end
 
-generate_palette_css()
+# The palette is committed, so a build without network access (or with Fathom.jl
+# unreachable) falls back to the checked-in file rather than failing.
+try
+    generate_palette_css()
+catch err
+    @warn "Could not regenerate palette.css from Fathom.jl; using the committed file" exception = (err, catch_backtrace())
+end
+
+# Copy each package's CHANGELOG.md into the site, so the release notes sit next to the docs
+# they describe. The copies are generated at build time and ignored by git.
+changelogs = [
+    TimeseriesTools => "TimeseriesTools/changelog.md",
+    TimeseriesBase => "TimeseriesTools/base/changelog.md",
+    MoreMaps => "MoreMaps/changelog.md",
+]
+for (pkg, dest) in changelogs
+    src = joinpath(pkgdir(pkg), "CHANGELOG.md")
+    isfile(src) || (@warn "No CHANGELOG.md found" package = nameof(pkg); continue)
+    repo = "https://github.com/brendanjohnharris/$(nameof(pkg)).jl"
+    header = """
+    ```@meta
+    EditURL = "$repo/blob/main/CHANGELOG.md"
+    ```
+
+    """
+    write(joinpath(@__DIR__, "src", dest), header * read(src, String))
+end
 
 format = DocumenterVitepress.MarkdownVitepress(;
     repo = "github.com/brendanjohnharris/TimeseriesDocs.jl",
@@ -72,6 +112,7 @@ timeseriestools = [
         "Utilities" => "TimeseriesTools/base/utils.md",
         "Operators" => "TimeseriesTools/base/operators.md",
         "IO" => "TimeseriesTools/base/io.md",
+        "Changelog" => "TimeseriesTools/base/changelog.md",
     ],
     "Analysis" => [
         "Spectra and spectrograms" => "TimeseriesTools/analysis/spectra.md",
@@ -83,6 +124,7 @@ timeseriestools = [
         "Statistics" => "TimeseriesTools/analysis/stats.md",
     ],
     "Extensions reference" => "TimeseriesTools/extensions.md",
+    "Changelog" => "TimeseriesTools/changelog.md",
 ]
 
 timeseriesmakie = [
@@ -96,13 +138,15 @@ normalization = [
     "Reference" => "Normalization/reference.md",
 ]
 
-cartographer = [
+moremaps = [
     "Introduction" => "MoreMaps/index.md",
     "Backends" => "MoreMaps/backends.md",
     "Progress" => "MoreMaps/progress.md",
     "Leaves" => "MoreMaps/leaf.md",
     "Expansion" => "MoreMaps/expansion.md",
+    "Extending MoreMaps" => "MoreMaps/interface.md",
     "Reference" => "MoreMaps/reference.md",
+    "Changelog" => "MoreMaps/changelog.md",
 ]
 
 pages = [
@@ -111,15 +155,21 @@ pages = [
     "TimeseriesTools" => timeseriestools,
     "TimeseriesMakie" => timeseriesmakie,
     "Normalization" => normalization,
-    "MoreMaps" => cartographer,
+    "MoreMaps" => moremaps,
 ]
 
-
+# Extension modules whose docstrings the reference pages include. Each is loaded by the
+# `using` statements at the top of this file.
 extensions = [
+    (TimeseriesTools, :DSPExt),
+    (TimeseriesTools, :DataInterpolationsExt),
+    (TimeseriesTools, :OptimExt),
+    (TimeseriesMakie, :TimeseriesToolsExt),
     (MoreMaps, :DaggerExt),
     (MoreMaps, :TermExt),
     (MoreMaps, :ProgressLoggingExt),
-    (TimeseriesTools, :OptimExt),
+    (MoreMaps, :OhMyThreadsExt),
+    (MoreMaps, :PolyesterExt),
 ]
 
 extension_modules = Module[]
@@ -134,6 +184,7 @@ end
 
 modules = Module[
     TimeseriesTools, TimeseriesBase, TimeseriesMakie, Normalization, MoreMaps,
+    TimeseriesToolsSurrogates,
     extension_modules...,
 ]
 
@@ -148,6 +199,7 @@ makedocs(;
         pkgdir(TimeseriesMakie) => (GitHub("brendanjohnharris", "TimeseriesMakie.jl"), "main"),
         pkgdir(Normalization) => (GitHub("brendanjohnharris", "Normalization.jl"), "main"),
         pkgdir(MoreMaps) => (GitHub("brendanjohnharris", "MoreMaps.jl"), "main"),
+        pkgdir(TimeseriesToolsSurrogates) => (GitHub("brendanjohnharris", "TimeseriesToolsSurrogates.jl"), "main"),
         pkgdir(Makie) => (GitHub("MakieOrg", "Makie.jl"), "master"),
     ),
     doctest = false,

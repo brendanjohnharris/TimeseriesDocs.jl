@@ -8,12 +8,14 @@ A flexible mapping framework for Julia that provides different parallel backends
 
 ## Features
 
-- **Multiple backends**: Sequential, Threaded, Distributed (`Pmap`), and `Daggermap` execution
-- **Progress tracking**: `LogLogger`, `ProgressLogger`, `TermLogger`, and `QualityLogger`
+- **Multiple backends**: `Sequential`, `Threaded`, `OhMyThreaded`, `Polyestered`, `Asyncmap`, distributed `Pmap`, and `Daggermap` execution
+- **Progress tracking**: `LogLogger`, `ProgressLogger`, `TermLogger`, `QualityLogger`, a `CallbackLogger` for programmatic sinks, and a `CompositeLogger` to combine them
+- **Resource monitoring**: `Monitor` records each map's wall time and allocations at no per-element cost
 - **Nested array support**: Map over specific leaf types in nested array structures
 - **Cartesian (and arbitrary) expansions**: Easy combinatorial iteration over inputs
 - **Tuple / NamedTuple inputs**: Map over `Tuple`s and `NamedTuple`s, returning the same shape
 - **`DimensionalData` support**: Map directly over `Dimension` arguments
+- **Extensible**: a backend or a logger is a handful of methods; see [Extending MoreMaps](interface.md)
 
 ## Quick Start
 
@@ -93,7 +95,17 @@ map(x -> x^2, Chart(), (a = 1, b = 2, c = 3)) # -> NamedTuple
 
 See the following pages for details on configuring a `Chart`:
 
-- [Backends](backends.md) - Execution strategies (`Sequential`, `Threaded`, `Pmap`, `Daggermap`)
-- [Progress](progress.md) - Progress tracking options (`LogLogger`, `ProgressLogger`, `TermLogger`, `QualityLogger`, `NoProgress`)
+- [Backends](backends.md) - Execution strategies (`Sequential`, `Threaded`, `OhMyThreaded`, `Polyestered`, `Asyncmap`, `Pmap`, `Daggermap`), and when to use each
+- [Progress](progress.md) - Progress tracking (`LogLogger`, `ProgressLogger`, `TermLogger`, `QualityLogger`, `CallbackLogger`, `CompositeLogger`, `NoProgress`) and resource monitoring (`Monitor`)
 - [Leaves](leaf.md) - Nested array handling
 - [Expansions](expansion.md) - Cartesian product and custom iterations
+- [Extending MoreMaps](interface.md) - Writing your own backend or progress logger
+
+## Related packages
+
+- [`ThreadsX`](https://github.com/tkf/ThreadsX.jl): Base-compatible parallel APIs with deterministic results
+- [`OhMyThreads`](https://github.com/JuliaFolds2/OhMyThreads.jl): task-based multithreading with chunking and schedulers, which `MoreMaps` can use as a backend
+- [`Polyester`](https://github.com/JuliaSIMD/Polyester.jl): lightweight threading with lower overhead than `Threads.@threads`, also available as a backend
+- [`Dagger`](https://github.com/JuliaParallel/Dagger.jl): dynamic task scheduling for distributed computing, available as a backend
+- [`Transducers`](https://github.com/JuliaFolds/Transducers.jl) and [`Folds`](https://github.com/JuliaFolds/Folds.jl): composable, automatically parallelised reductions
+- [`ParallelProgressMeter`](https://github.com/jekyllstein/ParallelProgressMeter.jl) and [`PmapProgressMeter`](https://github.com/slundberg/PmapProgressMeter.jl): progress bars for parallel and `pmap` tasks

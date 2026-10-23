@@ -1,21 +1,33 @@
 [deps]
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+ContinuousWavelets = "96eb917e-2868-4417-9cb6-27e7ff17528f"
+DSP = "717857b8-e6f2-59f4-9121-6e50c889abd2"
 Dagger = "d58978e5-989f-55fb-8d15-ea34adc7bf54"
+DataInterpolations = "82cc6244-b520-54b8-b5a6-8a565e85f1d0"
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 DimensionalData = "0703355e-b756-11e9-17c0-8b28908087d0"
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 DocumenterVitepress = "4710194d-e776-4893-9690-8d956a29c365"
 Foresight = "c6e1034d-1844-4b96-abf2-c5824a5aa8c3"
 ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
 LiveServer = "16fef848-5104-11e9-1b77-fb7a48bbb589"
 Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
 MoreMaps = "d6ea422f-1f55-4be1-bfc3-e7c09aa4d855"
 Normalization = "be38d6a3-8366-4a42-ad57-222272b5bbe7"
+OhMyThreads = "67456a42-1dca-4109-a031-0a68de7e3ad5"
 Optim = "429524aa-4258-5aef-a3af-852621145aeb"
+Polyester = "f517fe37-dbe3-4b94-8317-1923a5111588"
 ProgressLogging = "33c8b6b6-d38a-422a-b730-caa89a2f386c"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 Term = "22787eb5-b846-44ae-b979-8e399b8463ab"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 TimeseriesBase = "c2aba7f5-82a4-4c45-a741-402bb41ee238"
 TimeseriesMakie = "5e3e9a77-7bbf-480c-931c-0802e2453f5a"
 TimeseriesTools = "380cddd1-6ef2-46ca-b087-e7151fb095ff"
+TimeseriesToolsSurrogates = "0b265304-07a5-4112-bf84-11fee2482c98"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 YAML = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
 
@@ -25,4 +37,4 @@ Normalization = {rev = "main", url = "https://github.com/brendanjohnharris/Norma
 TimeseriesMakie = {rev = "main", url = "https://github.com/brendanjohnharris/TimeseriesMakie.jl"}
 TimeseriesTools = {rev = "main", url = "https://github.com/brendanjohnharris/TimeseriesTools.jl"}
 TimeseriesBase = {rev = "main", url = "https://github.com/brendanjohnharris/TimeseriesBase.jl"}
-
+TimeseriesToolsSurrogates = {rev = "main", url = "https://github.com/brendanjohnharris/TimeseriesToolsSurrogates.jl"}

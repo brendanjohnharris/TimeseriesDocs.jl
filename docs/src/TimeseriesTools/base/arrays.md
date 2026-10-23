@@ -7,8 +7,9 @@ CurrentModule = TimeseriesBase
 `TimeseriesTools` extends [`DimensionalData.jl`](https://github.com/rafaqz/DimensionalData.jl)
 with a custom array type, [`ToolsArray`](@ref), and a set of canonical
 [`ToolsDimension`](@ref)s. The motivation is dispatch-friendliness: a `ToolsArray` whose
-first or last dimension is a `ToolsDimension` is preserved across operations that would
-otherwise drop the `DimArray` wrapper (e.g. `eachcol`, slicing, rebuilding).
+first dimension is a `ToolsDimension` is preserved across operations that would
+otherwise drop the `DimArray` wrapper (e.g. `eachcol`, slicing, rebuilding), so the
+time-series types below are stable under the usual array manipulations.
 
 ```@example arrays
 using TimeseriesTools
@@ -16,7 +17,14 @@ x = Timeseries(rand(10), 1:10)
 x isa AbstractToolsArray, x isa AbstractTimeseries
 ```
 
-A `ToolsArray` behaves like a `DimensionalData.DimArray` in most respects.
+A `ToolsArray` behaves like a `DimensionalData.DimArray` in most respects: indexing, selectors
+(`x[𝑡 = At(3)]`, `x[𝑡 = 2 .. 5]`), `dims`, `lookup`, `set`, `rebuild`, broadcasting and
+reductions all work as they do for a `DimArray`, and are documented in
+[DimensionalData.jl](https://rafaqz.github.io/DimensionalData.jl/stable/).
+
+```@example arrays
+x[𝑡 = 2 .. 5]
+```
 
 ## Canonical dimensions
 
@@ -36,9 +44,9 @@ using DimensionalData
 DimensionalData.@dim NewDim ToolsDim "NameOfNewDim"
 ```
 
-Functions operating on a `ToolsArray` without a `ToolsDimension` as the first or last
-dimension may not return a `ToolsArray`; be careful with the `DimensionalData.Dim{:name}`
-syntax in that position.
+Functions operating on a `ToolsArray` without a `ToolsDimension` as the first dimension may
+not return a `ToolsArray`; be careful with the `DimensionalData.Dim{:name}` syntax in that
+position.
 
 ## Reference
 

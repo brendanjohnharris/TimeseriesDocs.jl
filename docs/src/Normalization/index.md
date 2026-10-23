@@ -133,6 +133,20 @@ y = normalize(x, N)
 normviz(x, y)
 ```
 
+== MinMaxClip
+
+As `MinMax`, but clipping out-of-range values to ``[0, 1]`` and mapping a constant input to
+``1/2`` rather than returning `NaN`
+
+$$\min\left(\max\left(\frac{x - \inf{x}}{\sup{x} - \inf{x}}, 0\right), 1\right)$$
+
+```@example Normalization
+x = 1.25.*randn(100) .+ 0.5
+N = fit(MinMaxClip, x[1:50])      # fit to half the data...
+y = normalize(x, N)               # ...so some values fall outside [0, 1] and are clipped
+normviz(x, y)
+```
+
 == Center
 
 Subtract the mean
@@ -202,6 +216,11 @@ normviz(x, y)
 
 :::
 
+!!! note "`MinMax` and constant inputs"
+    When all values are identical the `MinMax` formula is undefined, so `MinMax` returns
+    `NaN`s for such an array. `MinMaxClip` maps a constant input to the midpoint of the unit
+    interval instead, and clips anything outside the fitted range to ``[0, 1]``. It is not
+    invertible, so it has no `denormalize`.
 
 ## Normalization modifiers
 What if the input data contains NaNs or outliers?
@@ -224,6 +243,32 @@ The `Robust` modifier converts the `mean` to `median` and `std` to `iqr/1.35`, g
 
 ### Mixed modifier
 The `Mixed` modifier defaults to the behavior of `Robust` but uses the regular parameters (`mean` and `std`) if the `iqr` is 0.
+
+### Example
+An outlier and a `NaN` in the input, handled by composing the two modifiers:
+
+```@example Normalization
+using Statistics
+x = randn(200); x[1] = 50.0; x[2] = NaN
+N = fit(NaNSafe{Robust{ZScore}}, x)
+y = normalize(x, N)
+(median(filter(!isnan, y)), count(isnan, y))   # centred on the median; only the NaN stays NaN
+```
+
+Compare `fit(ZScore, x)`, whose parameters would both be `NaN`.
+
+## Extensions
+
+Three package extensions widen the kinds of input `Normalization` accepts:
+
+- **`using DimensionalData`**: `UnitEnergy` on a regularly sampled `DimArray` (such as a
+  `TimeseriesTools` series) accounts for the grid spacing, so the energy is ``\sum x^2 \Delta t``
+  rather than ``\sum x^2``.
+- **`using Unitful`**: arrays of `Quantity` values can be fit and normalized; the parameters
+  take the units of the data and the output takes the units of the formula (dimensionless
+  for a `ZScore`, the data's units for `Center`).
+- **`using DataFrames`**: `fit`, `fit!`, `normalize!` and `denormalize!` accept a `DataFrame`,
+  treating it as a matrix.
 
 ## Properties and traits
 The following are common methods defined for all `AbstractNormalization` subtypes and instances.

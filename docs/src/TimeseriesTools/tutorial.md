@@ -25,11 +25,17 @@ flow through naturally: `unit(eltype(x))` is `V`, `unit(eltype(lookup(x, 𝑡)))
 samplingrate(x), duration(x)
 ```
 
-## Compute and plot a power spectrum
+Any Makie function accepts the series directly, and `plot` chooses `lines` for a
+one-dimensional series:
 
 ```@example tutorial
 using CairoMakie, TimeseriesMakie
+plot(x[1:200])
+```
 
+## Compute and plot a power spectrum
+
+```@example tutorial
 S = powerspectrum(x, 0.5)         # second argument: minimum frequency to resolve
 fig = Figure()
 ax = Axis(fig[1, 1])

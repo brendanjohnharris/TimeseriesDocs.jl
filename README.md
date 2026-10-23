@@ -17,6 +17,6 @@ julia --project=docs docs/make.jl
 
 The first command resolves and precompiles the documentation environment (CairoMakie and the
 extension packages included, so it takes a while the first time). The second runs every
-example, writes the Markdown to `docs/build`, and builds the VitePress site into
-`docs/build/final_site`; deployment is skipped outside GitHub Actions. To preview with live
-reload while editing, run `npm run docs:dev` from `docs/` after a build.
+example, writes the Markdown to `docs/build/.documenter`, and builds the VitePress site into
+`docs/build/1`; deployment is skipped outside GitHub Actions. To preview with live reload
+while editing, run `npm run docs:dev` from `docs/` after a build.

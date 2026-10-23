@@ -59,10 +59,14 @@ Re-exported by `TimeseriesTools`, with two extensions of its own.
 - **A clear failure mode**: calling an extension method before loading its package throws a
   `MethodError`, and `TimeseriesTools` adds a hint naming the package to load:
 
-```@repl
-using TimeseriesTools
-x = Timeseries(randn(100), 0.0:0.01:0.99);
-impute(x)
+```julia-repl
+julia> using TimeseriesTools
+
+julia> impute(Timeseries(randn(100), 0.0:0.01:0.99))
+ERROR: MethodError: no method matching impute(::ToolsArray{Float64, 1, …})
+The function `impute` exists, but no method is defined for this combination of argument types.
+
+Hint: calling `impute` requires the DataInterpolationsExt extension. Run `using DataInterpolations` to enable it.
 ```
 
 The single-argument forms of `bandpass`, `highpass` and `lowpass` are the one exception:

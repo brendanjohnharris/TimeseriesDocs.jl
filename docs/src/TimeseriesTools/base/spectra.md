@@ -53,4 +53,6 @@ UnivariateSpectrum
 MultivariateSpectrum
 Spectrum
 freqs
+TimeseriesBase.Spectra.FreqIndex
+TimeseriesBase.Spectra.RegularFreqIndex
 ```

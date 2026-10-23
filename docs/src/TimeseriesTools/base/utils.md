@@ -23,6 +23,7 @@ samplingrate
 samplingperiod
 nyquist
 duration
+Interval(::AbstractTimeseries)
 ```
 
 ## Windowing and reshaping
@@ -31,8 +32,9 @@ duration
 and [`delayembed`](@ref) builds a delay-coordinate embedding. Each returns a vector of
 sub-series indexed by the time at which each window is centred (or, for `delayembed`, a
 matrix whose rows are the embedded vectors). [`coarsegrain`](@ref) pairs up neighbouring
-samples along a dimension, and [`stitch`](@ref) joins series end to end on a continuous time
-axis.
+samples along a dimension. `stitch(x, y, ...)` joins regular series end to end on a
+continuous time axis (the sampling periods must match); a numeric time axis restarts one step
+from the origin, while a `DateTime` axis continues the calendar of the first series.
 
 ```@example utils
 b = buffer(x, 100)               # 100-sample non-overlapping windows
@@ -49,7 +51,6 @@ coarsegrain
 buffer
 window
 delayembed
-stitch
 interlace
 Dropdims
 ```

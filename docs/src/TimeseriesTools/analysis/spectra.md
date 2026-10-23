@@ -49,7 +49,7 @@ before averaging, with the segments along a second `window` dimension. Use them 
 the spread across segments, or to average with something other than the mean.
 
 ```@example spec
-W = _powerspectrum(x, 0.1)
+W = _powerspectrum(x, 1.0)   # 1 Hz resolution: 1000-sample segments, half overlapping
 size(W)
 ```
 

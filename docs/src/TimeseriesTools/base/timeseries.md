@@ -74,6 +74,9 @@ RegularTimeIndex
 IrregularIndex
 IrregularTimeIndex
 Timeseries
+```
+
+```@docs; canonical=false
 SpikeTrain
 ```
 

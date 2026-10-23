@@ -24,7 +24,7 @@ quantity (a `Hour(6)` step gives `1/21600 s^-1`), and throw for a calendar perio
 `Month`, `Quarter`), which has no fixed length.
 
 ```@example dates
-samplingperiod(y), duration(y), samplingrate(y)
+samplingperiod(y), Day(duration(y)), samplingrate(y)
 ```
 
 ## Windowing and grid repair
@@ -54,6 +54,9 @@ r = regularize(z; atol = Second(1))
 r isa RegularTimeseries, times(r)[1:2]
 ```
 
+The grid is fitted by least squares over all the stamps, so it need not pass through the
+first one; here it starts a few milliseconds before midnight.
+
 ## Calendar operations
 
 Because the lookup is a calendar, DimensionalData's grouping works directly: here the
@@ -63,7 +66,7 @@ monthly mean.
 monthly = mean.(groupby(y, 𝑡 => month))
 ```
 
-[`stitch`](@ref) preserves an instant axis, continuing the calendar from the first series'
+`stitch` preserves an instant axis, continuing the calendar from the first series'
 own start; a numeric or `Period` index restarts from the origin instead.
 `regularize(...; zero = true)` deliberately returns a `Period` axis, since elapsed time is a
 duration rather than an instant.

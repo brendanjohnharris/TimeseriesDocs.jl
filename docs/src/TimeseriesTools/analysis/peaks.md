@@ -15,10 +15,12 @@ handle multivariate input along `dims`.
 ```@example mapple
 using TimeseriesTools, Random
 Random.seed!(2)
-t = 0:0.001:300                                                # 300 s at 1 kHz
-x = colorednoise(t; α = 1.5) .+ 0.4 .* sin.(2π * 10 .* t)     # a 1/f^1.5 background and a 10 Hz rhythm
+t = 0:0.001:300                                      # 300 s at 1 kHz
+ϕ = 2π .* (10 .* t .+ (0.5 / (2π * 0.05)) .* (1 .- cos.(2π * 0.05 .* t)))
+rhythm = sin.(ϕ)                                     # a 10 Hz rhythm that wanders by ±0.5 Hz
+x = colorednoise(t; α = 1.5) .+ 0.5 .* rhythm        # on a 1/f^1.5 background
 S = powerspectrum(x, 0.05)
-pks, proms, widths = findpeaks(S, 20; N = 1)                   # the single most prominent peak
+pks, proms, widths = findpeaks(S, 20; N = 1)         # the single most prominent peak
 lookup(pks, 𝑓), widths
 ```
 
@@ -36,10 +38,11 @@ The fit minimises the squared residuals in log-10 power across all samples, so a
 linear-frequency spectrum, most of whose samples sit in the noisy high-frequency decades,
 should be passed through [`logsample`](@ref) first. The zero-frequency bin has no logarithm
 and must be dropped, and the lower edge decides the bin width (see
-[Log-frequency sampling](spectra.md#Log-frequency-sampling)):
+[Log-frequency sampling](spectra.md#Log-frequency-sampling)): starting at 1 Hz, twenty
+steps above the 0.05 Hz resolution, gives bins about 0.02 decades wide.
 
 ```@example mapple
-Slog = logsample(S[𝑓 = 0.5 .. 200])
+Slog = logsample(S[𝑓 = 1 .. 200])
 length(S), length(Slog)
 ```
 
@@ -56,6 +59,10 @@ component.
 using Optim
 m = fit(MAPPLE, Slog)
 ```
+
+A single power-law segment was selected, with the exponent of the background and a peak at
+10 Hz. The detector also kept a weak bump near 2 Hz at the lower edge of the band; pass
+`peaks = 1` to keep only the strongest detection, or raise `peak_threshold`.
 
 The accessors report the parameters in physical units ([`betas`](@ref),
 [`breakfrequencies`](@ref), [`peakcentres`](@ref), [`peakbandwidths`](@ref),
@@ -113,7 +120,7 @@ reporting these on an averaged spectrum, whose residuals are strongly correlated
 
 ```@example mapple
 se = stderror(m, Slog)
-se.components
+se.log_A, se.components[1].β
 ```
 
 ## Reference
@@ -161,10 +168,4 @@ mapple_loss
 vcov(::MAPPLE, ::DimensionalData.AbstractDimVector)
 stderror(::MAPPLE, ::DimensionalData.AbstractDimVector)
 freelabels
-```
-
-### Internals
-
-```@docs
-TimeseriesTools._held
 ```

@@ -71,6 +71,11 @@ independent = gammarenewal(400, 2.0, 0.025)
 (stoic(st, jittered; σ = 0.01), stoic(st, independent; σ = 0.01))
 ```
 
+`sttc` is corrected for chance, so independent trains score near zero. `stoic` is an inner
+product of smoothed, non-negative rates, so two independent trains at the same rate score
+well above zero; judge it against surrogates (see [Surrogates](surrogates.md)) rather than
+against zero.
+
 [`closeneighbours`](@ref) is the building block behind both: a sparse matrix of the time
 differences between every pair of spikes closer than `Δt`.
 

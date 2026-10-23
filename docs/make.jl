@@ -204,7 +204,10 @@ makedocs(;
         pkgdir(Makie) => (GitHub("MakieOrg", "Makie.jl"), "master"),
     ),
     doctest = false,
-    warnonly = [:cross_references, :missing_docs, :docs_block, :example_block],
+    # Every `@example` block builds cleanly, so a failing example is now an error rather than a
+    # warning: the monthly rebuild then fails loudly when an upstream change breaks a page,
+    # instead of deploying it with an error block in place of the output.
+    warnonly = [:cross_references, :missing_docs, :docs_block],
     modules,
     pages
 )

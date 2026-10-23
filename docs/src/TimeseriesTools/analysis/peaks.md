@@ -105,9 +105,9 @@ Pass an integer `components` to fix the segment count; this returns the rough fi
   `ComponentArrays.labels(m.params)`, such as `"components[1].β"`.
 
 ```@example mapple
-m2 = fit(MAPPLE, Slog; components = 2, peaks = 1)   # rough initialisation only
+m2 = fit(MAPPLE, Slog; components = 1, peaks = 1)   # rough initialisation only
 fit!(m2, Slog; w = true, fix = ["components[1].β" => -1.5])
-betas(m2)
+betas(m2), peakcentres(m2)
 ```
 
 ### Uncertainty

@@ -36,7 +36,10 @@ gives a noisy estimate:
 using CairoMakie, TimeseriesMakie
 fs = 0.5:0.5:60
 S = powerspectrum(st, fs; method = :schild)
-lines(S; axis = (; xlabel = "Frequency (Hz)", ylabel = "Power"))
+fig = Figure()
+ax = Axis(fig[1, 1]; xlabel = "Frequency (Hz)", ylabel = "Power")
+lines!(ax, S)
+fig
 ```
 
 Averaging over independent trains shows the shape. A gamma renewal process with shape 2 is
@@ -45,8 +48,9 @@ dip in power at low frequency:
 
 ```@example spike
 average(shape, scale) = mean(powerspectrum(gammarenewal(4000, shape, scale), fs; method = :schild) for _ in 1:100)
-fig, ax = lines(average(2.0, 0.025); label = "gamma, shape 2",
-                axis = (; xlabel = "Frequency (Hz)", ylabel = "Power"))
+fig = Figure()
+ax = Axis(fig[1, 1]; xlabel = "Frequency (Hz)", ylabel = "Power")
+lines!(ax, average(2.0, 0.025); label = "gamma, shape 2")
 lines!(ax, average(1.0, 0.05); label = "Poisson")
 axislegend(ax; position = :rb)
 fig
@@ -61,8 +65,9 @@ series indexed by bin width:
 
 ```@example spike
 F = fano_factor(st)
-fig, ax = lines(F; label = "gamma, shape 2",
-                axis = (; xscale = log10, xlabel = "Bin width (s)", ylabel = "Fano factor"))
+fig = Figure()
+ax = Axis(fig[1, 1]; xscale = log10, xlabel = "Bin width (s)", ylabel = "Fano factor")
+lines!(ax, F; label = "gamma, shape 2")
 lines!(ax, fano_factor(gammarenewal(400, 1.0, 0.05)); label = "Poisson")
 axislegend(ax)
 fig

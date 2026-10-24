@@ -28,6 +28,7 @@ using MoreMaps
 using Dates, Random, Statistics
 
 using Documenter
+using Documenter: DocMeta
 using Documenter: Documenter
 using Documenter.Remotes: GitHub
 using Documenter.MarkdownAST
@@ -153,6 +154,7 @@ moremaps = [
 pages = [
     "Home" => "index.md",
     "Quick start" => "quickstart.md",
+    "Gallery" => "gallery.md",
     "TimeseriesTools" => timeseriestools,
     "TimeseriesMakie" => timeseriesmakie,
     "Normalization" => normalization,
@@ -189,6 +191,20 @@ modules = Module[
     extension_modules...,
 ]
 
+# Every doctest sees its own package loaded, so a docstring example need not repeat `using`.
+for (m, setup) in (
+        TimeseriesTools => :(using TimeseriesTools, Unitful),
+        TimeseriesBase => :(using TimeseriesBase, Unitful),
+        TimeseriesMakie => :(using TimeseriesMakie),
+        Normalization => :(using Normalization),
+        MoreMaps => :(using MoreMaps),
+        TimeseriesToolsSurrogates => :(using TimeseriesToolsSurrogates),
+    )
+    DocMeta.setdocmeta!(m, :DocTestSetup, setup; recursive = true)
+end
+
+
+doctest_mode = get(ENV, "DOCS_DOCTEST", "true") == "only" ? :only : true
 
 makedocs(;
     authors = "brendanjohnharris <brendanjohnharris@gmail.com> and contributors",
@@ -203,14 +219,24 @@ makedocs(;
         pkgdir(TimeseriesToolsSurrogates) => (GitHub("brendanjohnharris", "TimeseriesToolsSurrogates.jl"), "main"),
         pkgdir(Makie) => (GitHub("MakieOrg", "Makie.jl"), "master"),
     ),
-    doctest = false,
+    # Run the `jldoctest` blocks in the documented modules (MoreMaps carries eleven) and on the
+    # pages, so an output that drifts from its docstring fails the build.
+    # `DOCS_DOCTEST=only julia --project=docs docs/make.jl` runs the doctests alone, which takes
+    # a couple of minutes rather than the full build.
+    doctest = doctest_mode,
     # Every `@example` block builds cleanly, so a failing example is now an error rather than a
     # warning: the monthly rebuild then fails loudly when an upstream change breaks a page,
     # instead of deploying it with an error block in place of the output.
-    warnonly = [:cross_references, :missing_docs, :docs_block],
+    # `:doctest` stays a warning until MoreMaps' extension docstrings are fixed upstream (four of
+    # its doctests fail against current Term, Dagger and ProgressLogging; see
+    # docs/upstream-patches/MoreMaps-doctests.patch). Remove it from this list once that lands,
+    # so a drifting doctest fails the build.
+    warnonly = [:cross_references, :missing_docs, :docs_block, :doctest],
     modules,
     pages
 )
+
+doctest_mode === :only && exit(0)   # nothing was built, so there is nothing to deploy
 
 DocumenterVitepress.deploydocs(;
     repo = "github.com/brendanjohnharris/TimeseriesDocs.jl",

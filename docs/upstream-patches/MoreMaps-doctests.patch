@@ -1,0 +1,101 @@
+diff --git a/ext/DaggerExt.jl b/ext/DaggerExt.jl
+index 46af9b4..417803f 100644
+--- a/ext/DaggerExt.jl
++++ b/ext/DaggerExt.jl
+@@ -15,7 +15,7 @@ Elements are grouped into batches of `batchsize` and one Dagger task is spawned
+ amortizing the per-task scheduler overhead. `batchsize = 0` (the default) picks
+ `cld(N, 4 * nprocs())`, giving each process about four batches for load balancing.
+ The remaining `kwargs` are passed to `Dagger.Options` and apply to each batch task
+-(e.g. `scope`, `single`, `occupancy`).
++(e.g. `scope`, `occupancy`).
+ 
+ Best for:
+ - Very large computations
+@@ -51,7 +51,7 @@ julia> result = map(sum, C_nested, nested_data)
+   7
+  11
+ 
+-julia> C_opts = Chart(Daggermap(; single = 1, batchsize = 2)); # Options for Dagger tasks
++julia> C_opts = Chart(Daggermap(; scope = Dagger.scope(worker = 1), batchsize = 2)); # Options for Dagger tasks
+ 
+ julia> result = map(x -> x + 10, C_opts, [1, 2, 3])
+ 3-element Vector{Int64}:
+diff --git a/ext/ProgressLoggingExt.jl b/ext/ProgressLoggingExt.jl
+index 29ead0e..9255514 100644
+--- a/ext/ProgressLoggingExt.jl
++++ b/ext/ProgressLoggingExt.jl
+@@ -22,14 +22,12 @@ Useful for applications that need standardized progress reporting (e.g., Pluto.j
+ 
+ ## Usage
+ 
+-```jldoctest; output = false
++```jldoctest
+ julia> using MoreMaps, ProgressLogging
+ 
+-julia> P = ProgressLogger(5)
+-ProgressLogger(LogLogger(5), ProgressLogging.Progress(UUIDs.UUID("00000000-0000-0000-0000-000000000000"), "Progress", 1.0, false, :normal, 0, 1.0, Dict{String, Any}(), Any[]))
++julia> P = ProgressLogger(5);
+ 
+-julia> C = Chart(P)
+-Chart{MoreMaps.All, Sequential, ProgressLogger, NoExpansion}(Sequential(), ProgressLogger(LogLogger(5), ProgressLogging.Progress(UUIDs.UUID("00000000-0000-0000-0000-000000000000"), "Progress", 1.0, false, :normal, 0, 1.0, Dict{String, Any}(), Any[])), NoExpansion())
++julia> C = Chart(P);
+ 
+ julia> data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+ 
+@@ -48,8 +46,7 @@ julia> result
+   81
+  100
+ 
+-julia> # Works with any backend
+-       C_threaded = Chart(Threaded(), ProgressLogger(3));
++julia> C_threaded = Chart(Threaded(), ProgressLogger(3)); # Works with any backend
+ ```
+ 
+ Best with:
+diff --git a/ext/TermExt.jl b/ext/TermExt.jl
+index a21ba59..fa69a57 100644
+--- a/ext/TermExt.jl
++++ b/ext/TermExt.jl
+@@ -18,30 +18,20 @@ A progress logger that creates rich terminal progress bars using Term.jl.
+ 
+ ## Usage
+ 
+-```jldoctest
+-julia> using MoreMaps, Term
+-
+-julia> P = TermLogger(5);
+-
+-julia> C = Chart(P);
+-
+-julia> data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+-
+-julia> result = map(x -> (sleep(0.5); x^2), C, data); # Will display a progress bar
++```jldoctest; output = false
++using MoreMaps, Term
++
++P = TermLogger(5)
++C = Chart(P)
++data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
++result = redirect_stdout(devnull) do # the bar is drawn on the terminal; keep it out of the test
++    map(x -> (sleep(0.1); x^2), C, data)
++end
++result == data .^ 2
+ 
+-julia> result
+-10-element Vector{Int64}:
+-   1
+-   4
+-   9
+-  16
+-  25
+-  36
+-  49
+-  64
+-  81
+- 100
++# output
+ 
++true
+ ```
+ 
+ **Note**: Requires Term.jl to be loaded. Creates visual progress bars in the terminal with customizable

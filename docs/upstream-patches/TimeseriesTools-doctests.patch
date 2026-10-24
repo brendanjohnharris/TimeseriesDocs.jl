@@ -1,0 +1,26 @@
+diff --git a/src/Spectra.jl b/src/Spectra.jl
+index 5a9ccfe..7f7b94d 100644
+--- a/src/Spectra.jl
++++ b/src/Spectra.jl
+@@ -97,13 +97,19 @@ If the input time series is a [`UnitfulTimeseries`](@ref), the frequency will al
+ Moreover if the elements of `x` are unitful, so are the elements of the spectrum.
+ 
+ # Examples
+-```@example 1
++```jldoctest
+ julia> using TimeseriesTools
++
+ julia> t = range(0.0, stop=1.0, length=1000);
++
+ julia> x = sin.(2 * π * 5 * t);
+-julia> ts = RegularTimeseries(x, t);
++
++julia> ts = Timeseries(x, t);
++
+ julia> S = _energyspectrum(ts);
++
+ julia> S isa MultivariateSpectrum
++true
+ ```
+ """
+ function _energyspectrum(x::MultivariateTimeseries, args...; kwargs...)

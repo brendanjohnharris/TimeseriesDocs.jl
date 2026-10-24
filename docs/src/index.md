@@ -18,6 +18,9 @@ hero:
       text: Tutorial
       link: /TimeseriesTools/tutorial
     - theme: alt
+      text: Gallery
+      link: /gallery
+    - theme: alt
       text: View on Github
       link: https://github.com/brendanjohnharris/TimeseriesTools.jl
 
@@ -56,6 +59,20 @@ features:
 - **Analysis**: spectra and spectrograms, filtering and analytic signals, interpolation/resampling/imputation, spike trains, parametric spectral fits, and (in a companion package) surrogate data.
 - **Plotting**: `Makie.jl` recipes for series, spectra, spike rasters, and trajectories.
 - **Light by default**: extensions implement heavy analysis, and a hint names the package to load when a method is missing.
+
+## Versions described by this build
+
+The pages are built from the packages' `main` branches, and every example is executed at build
+time against these versions:
+
+```@example versions
+using TimeseriesTools, TimeseriesMakie, Normalization, MoreMaps, TimeseriesToolsSurrogates, Markdown # hide
+rows = ["| Package | Version |", "|---|---|"] # hide
+for m in (TimeseriesTools, TimeseriesTools.TimeseriesBase, TimeseriesMakie, Normalization, MoreMaps, TimeseriesToolsSurrogates) # hide
+    push!(rows, "| [`$(nameof(m))`](https://github.com/brendanjohnharris/$(nameof(m)).jl) | $(pkgversion(m)) |") # hide
+end # hide
+Markdown.parse(join(rows, "\n")) # hide
+```
 
 
 ```@raw html

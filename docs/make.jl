@@ -154,7 +154,6 @@ moremaps = [
 pages = [
     "Home" => "index.md",
     "Quick start" => "quickstart.md",
-    "Gallery" => "gallery.md",
     "TimeseriesTools" => timeseriestools,
     "TimeseriesMakie" => timeseriesmakie,
     "Normalization" => normalization,

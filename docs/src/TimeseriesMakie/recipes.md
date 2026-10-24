@@ -415,3 +415,8 @@ itself, so the axis above can be left to it:
 ```@example TimeseriesMakie
 plotspectrum(spectrum(x); peaks = 2, pwindow = 5)
 ```
+
+```@example TimeseriesMakie
+Makie.set_theme!() # hide
+nothing # hide
+```

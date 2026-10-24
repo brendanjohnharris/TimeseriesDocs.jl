@@ -81,6 +81,7 @@ Two prerequisites before the first tag:
   and loggers the pages now document; a `stable` build today would show `@docs` failures
   for `Asyncmap`, `OhMyThreaded`, `Polyestered`, `Monitor`, `CallbackLogger` and
   `CompositeLogger`. More generally, release the packages first and tag the docs second.
+  `MOREMAPS_0.4_RELEASE.md` lists what that release needs.
 
 ### Guarding the stable build
 

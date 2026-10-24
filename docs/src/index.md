@@ -19,7 +19,7 @@ hero:
       link: /TimeseriesTools/tutorial
     - theme: alt
       text: Gallery
-      link: "#gallery"
+      link: "#Gallery"
     - theme: alt
       text: View on Github
       link: https://github.com/brendanjohnharris/TimeseriesTools.jl
@@ -112,10 +112,10 @@ fig # hide
 ```@example gallery
 tw = 0:0.002:4 # hide
 xw = Timeseries(sin.(2π * 5 .* tw) .+ (tw .> 2) .* sin.(2π * 20 .* tw), tw) # hide
-W = waveletspectrogram(xw; pass = 40) # hide
+W = waveletspectrogram(xw; pass = 40)[𝑓 = 1 .. 40] # hide
 fig = Figure(size = (520, 340)) # hide
 ax = Axis(fig[1, 1]; xlabel = "Time (s)", ylabel = "Frequency (Hz)") # hide
-heatmap!(ax, times(W), freqs(W), parent(abs.(W))) # hide
+heatmap!(ax, times(W), freqs(W), parent(abs.(W)); colormap = :viridis) # hide
 fig # hide
 ```
 
@@ -175,15 +175,18 @@ fig # hide
 ```@example gallery
 vi = sin.(0.0:0.1:9.9); vi[30:38] .= NaN; vi[60:63] .= NaN # hide
 g = Timeseries(vi, 0.0:0.1:9.9) # hide
+gaps = isnan.(parent(g)) # hide
+filled = impute(g) # hide
 fig = Figure(size = (520, 340)) # hide
 ax = Axis(fig[1, 1]) # hide
-lines!(ax, impute(g); color = :crimson, label = "impute") # hide
+lines!(ax, filled; color = (:gray, 0.6), label = "impute") # hide
 scatter!(ax, g; markersize = 7, label = "data") # hide
+scatter!(ax, collect(times(g))[gaps], parent(filled)[gaps]; color = :crimson, marker = :xcross, markersize = 11, label = "filled") # hide
 axislegend(ax) # hide
 fig # hide
 ```
 
-**[Imputation](TimeseriesTools/analysis/interpolation.md#impute)**. Gaps flagged as `NaN`, filled by an Akima interpolant through the surviving samples.
+**[Imputation](TimeseriesTools/analysis/interpolation.md#impute)**. Two gaps flagged as `NaN`, filled (crosses) by an Akima interpolant through the surviving samples.
 
 ```@raw html
 </figure>
@@ -239,15 +242,17 @@ fig # hide
 
 ```@example gallery
 rates = shuffle(range(2, 20, length = 40)) # hide
-spikes = [cumsum(randexp(300) ./ r) for r in rates] # hide
-spikes = [s[s .< 10] for s in spikes] # hide
+spikes = map(rates) do r # hide
+    s = cumsum(randexp(300) ./ r) # background spikes at rate r # hide
+    sort(vcat(s[s .< 10], 4 .+ 0.1 .* randn(round(Int, 2r)))) # plus a burst at 4 s # hide
+end # hide
 fig = Figure(size = (520, 340)) # hide
 ax = Axis(fig[1, 1]; xlabel = "Time (s)", ylabel = "Neuron") # hide
 spikeraster!(ax, spikes; sortby = :rate) # hide
 fig # hide
 ```
 
-**[Spike raster](TimeseriesMakie/recipes.md#Spike-raster)**. Forty neurons with different rates, rows sorted by rate.
+**[Spike raster](TimeseriesMakie/recipes.md#Spike-raster)**. Forty neurons with different rates and a shared burst at four seconds, rows sorted by rate.
 
 ```@raw html
 </figure>
@@ -264,7 +269,7 @@ psth!(ax, reduce(vcat, spikes); binwidth = 0.25) # hide
 fig # hide
 ```
 
-**[Peri-stimulus time histogram](TimeseriesMakie/recipes.md#PSTH)**. The pooled spike times of the same population, binned.
+**[Peri-stimulus time histogram](TimeseriesMakie/recipes.md#PSTH)**. The pooled spike times of the same population, binned; the burst stands out.
 
 ```@raw html
 </figure>

@@ -24,6 +24,7 @@ in the package named. The documentation works around them where it can.
 | B6 | Normalization | Typo | Unbalanced backtick in the `AbstractNormalization` docstring and README |
 | B7 | TimeseriesBase | Typo | `TimeseriesBase.Uniful.convertconst` in a docstring |
 | B8 | MoreMaps | Typo | Changelog footer links to a v0.5.0 that does not exist |
+| B9 | TimeseriesTools | Bug | `:schild` spike spectra return the periodogram squared, and the estimator mutates its input |
 | D1 | TimeseriesBase | Docstring | The `stitch` docstring is attached to `_stitchstart` |
 | D2 | TimeseriesBase, TimeseriesTools | Docstring | 16 docstring examples use `@example 1` fences with `julia>` prompts and never run |
 | D3 | TimeseriesBase | Docstring | `frequnit` example calls `fft(ts)` and `frequnits`, neither of which exists |
@@ -130,6 +131,36 @@ rendered line is garbled.
 
 `MoreMaps/CHANGELOG.md:105-106` define link references for `v0.5.0` although the latest
 section is 0.4.0.
+
+### B9. The `:schild` spike spectrum squares the periodogram twice (verified)
+
+`spikefft(t, Val(:schild))` (`TimeseriesTools/src/Spectra.jl:200-206`) returns
+
+```julia
+f -> (sum(cos.(2π * f .* t))^2 + sum(sin.(2π * f .* t))^2) / T
+```
+
+which is already the squared magnitude of the transform divided by the duration, that is, a
+periodogram. The spike-train `_energyspectrum` (`Spectra.jl:231`) then applies
+`abs.(...) .^ 2` to it, so `powerspectrum(st, fs; method = :schild)` returns the periodogram
+*squared*. The Parseval normalisation that follows rescales the total but not the shape:
+every feature is exaggerated (a dip to half the high-frequency power shows as a dip to a
+quarter), and the estimate is much noisier than a periodogram, because the square of an
+exponentially distributed value has a relative standard deviation of about 2.2 rather than 1.
+Averaging twenty independent trains still leaves a spiky curve; the documentation page now
+averages a hundred to show the shape.
+
+The same function also runs `t .-= minimum(t)` on its argument, so it mutates the vector of
+spike times it is given.
+
+Reproduction (seed 0, `st = gammarenewal(400, 2.0, 0.025)`, `fs = 0.5:0.5:60`): dividing
+`powerspectrum(st, fs; method = :schild)` by a hand-computed periodogram
+`[(sum(cos.(2π * f .* t))^2 + sum(sin.(2π * f .* t))^2) / T for f in fs]` gives a ratio that
+varies across frequency, while dividing by the periodogram squared gives a constant.
+
+Suggested fix: have `spikefft` return the transform itself, `f -> sum(cis.(-2π * f .* t))`,
+and keep the `abs2` in `_energyspectrum` (or drop the `.^ 2` there), and copy `t` before
+shifting it.
 
 ## Docstring defects
 

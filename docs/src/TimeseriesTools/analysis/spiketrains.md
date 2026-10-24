@@ -28,14 +28,28 @@ spiketimes(st)[1:5], length(st) / duration(st)   # the first spike times, and th
 [`powerspectrum`](@ref) and [`energyspectrum`](@ref) accept a spike train, given the
 frequency range to evaluate. By default the spectrum is the Fourier transform of the spike
 train's autocovariance, estimated with the [`stoic`](@ref) kernel; `method = :schild` instead
-evaluates the Fourier transform of the point process directly (Schild, 1982). A gamma renewal
-process with shape 2 is more regular than a Poisson process, which shows as a dip in power at
-low frequency:
+evaluates the Fourier transform of the point process directly (Schild, 1982). Start the range
+above zero: the zero-frequency bin holds the mean rate and dwarfs everything else. One train
+gives a noisy estimate:
 
 ```@example spike
 using CairoMakie, TimeseriesMakie
-S = powerspectrum(st, 0:0.5:60; method = :schild)
-plot(S; axis = (; xlabel = "Frequency (Hz)", ylabel = "Power"))
+fs = 0.5:0.5:60
+S = powerspectrum(st, fs; method = :schild)
+lines(S; axis = (; xlabel = "Frequency (Hz)", ylabel = "Power"))
+```
+
+Averaging over independent trains shows the shape. A gamma renewal process with shape 2 is
+more regular than a Poisson process (shape 1) with the same mean interval, which shows as a
+dip in power at low frequency:
+
+```@example spike
+average(shape, scale) = mean(powerspectrum(gammarenewal(4000, shape, scale), fs; method = :schild) for _ in 1:100)
+fig, ax = lines(average(2.0, 0.025); label = "gamma, shape 2",
+                axis = (; xlabel = "Frequency (Hz)", ylabel = "Power"))
+lines!(ax, average(1.0, 0.05); label = "Poisson")
+axislegend(ax; position = :rb)
+fig
 ```
 
 ## Variability
@@ -47,7 +61,11 @@ series indexed by bin width:
 
 ```@example spike
 F = fano_factor(st)
-lines(F; axis = (; xscale = log10, xlabel = "Bin width (s)", ylabel = "Fano factor"))
+fig, ax = lines(F; label = "gamma, shape 2",
+                axis = (; xscale = log10, xlabel = "Bin width (s)", ylabel = "Fano factor"))
+lines!(ax, fano_factor(gammarenewal(400, 1.0, 0.05)); label = "Poisson")
+axislegend(ax)
+fig
 ```
 
 [`convolve`](@ref) smooths a spike train with a kernel, returning a function of time that

@@ -221,16 +221,20 @@ fig # hide
 ```
 
 ```@example gallery
-st = gammarenewal(400, 2.0, 0.025) # hide
+fs = 0.5:0.5:60 # hide
+average(shape, scale) = mean(powerspectrum(gammarenewal(4000, shape, scale), fs; method = :schild) for _ in 1:100) # hide
 fig = Figure(size = (520, 340)) # hide
 ax = Axis(fig[1, 1]; xlabel = "Frequency (Hz)", ylabel = "Power") # hide
-lines!(ax, powerspectrum(st, 0:0.5:60; method = :schild)) # hide
+lines!(ax, average(2.0, 0.025); label = "gamma, shape 2") # hide
+lines!(ax, average(1.0, 0.05); label = "Poisson") # hide
 ax2 = Axis(fig[1, 2]; xscale = log10, xlabel = "Bin width (s)", ylabel = "Fano factor") # hide
-lines!(ax2, fano_factor(st)) # hide
+lines!(ax2, fano_factor(gammarenewal(4000, 2.0, 0.025))) # hide
+lines!(ax2, fano_factor(gammarenewal(4000, 1.0, 0.05))) # hide
+Legend(fig[2, 1:2], ax; orientation = :horizontal, framevisible = false) # hide
 fig # hide
 ```
 
-**[Spike spectrum and Fano factor](TimeseriesTools/analysis/spiketrains.md)**. A gamma renewal spike train: its power spectrum, and the Fano factor of its counts across bin widths.
+**[Spike spectrum and Fano factor](TimeseriesTools/analysis/spiketrains.md)**. A gamma renewal train against a Poisson train with the same rate: regular firing lowers the power at low frequency and the Fano factor of the counts.
 
 ```@raw html
 </figure>
